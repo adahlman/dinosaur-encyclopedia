@@ -1,6 +1,6 @@
 <?php
     $s = $_GET['search'];
-    $url = "http://en.wikipedia.org/w/api.php";//?action=query&titles=".$s."&prop=extracts&exintro=true&format=json";
+    $url = "http://en.wikipedia.org/w/api.php";
     $params = array(
                     'action'=>'query',
                     'titles'=>$s,
@@ -12,7 +12,7 @@
     $ch = curl_init($url."?".http_build_query($params));
     curl_setopt($ch, CURLOPT_HTTPGET, TRUE);
     curl_setopt($ch, CURLOPT_POST, FALSE);
-    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
     curl_setopt($ch, CURLOPT_NOBODY, FALSE);
     curl_setopt($ch, CURLOPT_VERBOSE, FALSE);
     curl_setopt($ch, CURLOPT_REFERER, "");
