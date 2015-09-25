@@ -137,26 +137,29 @@ select {
 /* line 1, ../sass/base/_lists.scss */
 ul,
 ol {
+  display: inline-block;
   list-style-type: none;
   margin: 0;
   padding: 0;
+  position: relative;
+  z-index: 2;
 }
-/* line 6, ../sass/base/_lists.scss */
+/* line 9, ../sass/base/_lists.scss */
 ul li,
 ol li {
   cursor: pointer;
   text-transform: capitalize;
 }
-/* line 23, ../sass/base/_lists.scss */
+/* line 26, ../sass/base/_lists.scss */
 dl {
   margin-bottom: 0.75em;
 }
-/* line 26, ../sass/base/_lists.scss */
+/* line 29, ../sass/base/_lists.scss */
 dl dt {
   font-weight: bold;
   margin-top: 0.75em;
 }
-/* line 31, ../sass/base/_lists.scss */
+/* line 34, ../sass/base/_lists.scss */
 dl dd {
   margin: 0;
 }
@@ -346,6 +349,14 @@ a {
 /* line 22, ../sass/base/_basic.scss */
 .clear {
   clear: both;
+}
+
+/* line 4, ../sass/dino.scss */
+#paper {
+  background: red;
+  height: 600px;
+  position: relative;
+  width: 600px;
 }
 
 /*# sourceMappingURL=dino.css.map */

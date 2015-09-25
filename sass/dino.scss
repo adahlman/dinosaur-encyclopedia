@@ -1,3 +1,9 @@
 @import "compass";
 @import "base/base";
 
+#paper{
+    background: red;
+    height: 600px;
+    position: relative;
+    width: 600px;
+}
