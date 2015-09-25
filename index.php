@@ -10,11 +10,12 @@
         <article class="clearfix rel">
             <ul id="dino-list" class=floatLeft">
             </ul><!--dino-list-->
-            <section id="paper" class="floatRight" style="width: 1500px; height: 1500px; margin: 10px auto; position: relative">
+            <section id="paper" class="floatRight rel" style="/*width: 1500px; height: 1500px; margin: 10px auto; position: relative*/">
                 
             </section><!--paper-->
         </article><!--clearfix-->
-        <article id="summary">
+        <h3 id="dino-name" class="info"></h3>
+        <article id="summary" class="info">
             
         </article><!--summary-->
         <script src="js/libraries/jquery.js"></script>
