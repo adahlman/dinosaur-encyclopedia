@@ -1,5 +1,6 @@
-var paper = Raphael($('#paper'),0,1500,1500 );
-//var dinos = Array();
+var paper = Raphael('paper',$('#paper').width(),$('#paper').height());
+paper.setViewBox(0, 0, 600, 600, true);
+paper.canvas.setAttribute('preserveAspectRatio', 'none'); 
 function loadDino(name,x,y) {
     $.ajax({
         type:"GET",
@@ -8,14 +9,12 @@ function loadDino(name,x,y) {
         success: function(response){
             $(response).find('dino').each(function(){
                 if ($(this).attr('name') == name){
-                    console.log($(this).children('path'));
-                    paper.clear();
-                    paper.path($(this).children('path').text())
+                     paper_dino = paper.path($(this).children('path').text())
                     .attr({fill:'#000'});
+                    paper.setViewBox(-3,0,Math.ceil(paper_dino.getBBox().width) +10 ,Math.ceil(paper_dino.getBBox().height) + 10,true);
                     return false;
                 }
             });
-            console.log('after');
         }
     });
 }
@@ -25,16 +24,23 @@ $(document).ready(function(){
         url: 'xml/dino.xml',
         dataType:'xml',
         success:function(xml){
+            var alphaArray = new Array();
             $(xml).find('dino').each(function(){
-                $('#dino-list').append(
-                                       '<li class="lookup" data-name="'+$(this).attr('name')+'">'+$(this).attr('name')+'</li>'
-                                       );
+                alphaArray.push($(this).attr('name'));
             });
+            for(var i = 0; i < alphaArray.sort().length; i++){
+                $('#dino-list').append(
+                       '<li class="lookup" data-name="'+alphaArray[i]+'">'+alphaArray[i]+'</li>'
+                       );
+            }
         }
     });
     $('body').on('click','.lookup',function(){
+        $('.info').html('');
+        paper.clear();
         console.log($(this).data('name'));
         loadDino($(this).data('name'));
+        $('#dino-name').html($(this).data('name'));
     });
     function wiki(searchTerm) {
     $.ajax({
@@ -49,97 +55,4 @@ $(document).ready(function(){
 }
 
 });
-function drawDino(name) {
-    var dino = $(xml).find('dino');
-    console.log(dino);
-}
-var count = 0;
-function recurseChildren (child, mat) {
-    console.log(mat);
-  
-    var r = child.attr('transform');
-    if (typeof r !== 'undefined') {
-        if (r.indexOf('matrix') > -1) {
-                    console.log(r);
-            var e =r.replace(/\(|\)/g, '').replace('matrix','');
-            e = e.split(',');
-            console.log(e.length);
-            //mat.add(
-            //parseFloat(e[0]),
-            //parseFloat(e[1]),
-            //parseFloat(e[2]),
-            //parseFloat(e[3]),
-            //parseFloat(e[4]),
-            //parseFloat(e[5])
-            //);
-            mat = Raphael.matrix(
-            parseFloat(e[0]),
-            parseFloat(e[1]),
-            parseFloat(e[2]),
-            parseFloat(e[3]),
-            parseFloat(e[4]),
-            parseFloat(e[5])
-            );
-            r = mat.toString();
-            
-        }
-        r = r.replace(/\(|\)/g, '').replace('matrix','m').replace('translate','t').replace('scale','s')
-        .replace('rotate','r');
-    
-    }else{
-        r ='';
-    }
-  //  console.log(r);
- 
-    child.children().each(function(){
-        var x;
-        if ($(this).is('path')) {
-            //if (r.indexOf('m') > -1) {
-            //    mat =
-            //    (typeof mat !== 'undefined') ?
-            //    Raphael.matrix(r.replace('m',''))
-            //                   : mat.addMatrix(r.replace('m',''));
-            //    console.log(mat)
-            //}
 
-            x = paper.path($(this).attr('d')).transform(r);
-            if ($(this).attr('transform')) {
-                x.transform($(this).attr('transform').replace(/\(|\)/g, '').replace('matrix','m').replace('translate','t').replace('scale','s')
-        .replace('rotate','r'));
-            }
-            if (r.indexOf('m') > -1) {
-                m = x.matrix;
-                //console.log('e');
-            }
-            //console.log(m);
-          //r !=''  ?
-          //console.log(x.matrix);
-          //:paper.path($(this).attr('d'));
-        }else if ($(this).children().length) {
-            //console.log($(this).children());
-           // if (++count <2) {
-               // recurseChildren($(this), mat);
-            //}
-            
-        }
-    });
-
-}
-function loadSVG(args) {
-    $.ajax({
-        url: 'svg/fox.svg',
-        dataType: 'xml',
-        success: function(response){
-            var child = $(response).find('g');
-            var count = 0;
-            child.each(function(){
-                if (++count >4) {
-                    return;
-                }
-                recurseChildren($(this), Raphael.matrix());
-                
-            });
-            //console.log(child.children());
-        }
-    })
-}
