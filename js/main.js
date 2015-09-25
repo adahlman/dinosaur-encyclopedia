@@ -9,7 +9,9 @@ function loadDino(name,x,y) {
             $(response).find('dino').each(function(){
                 if ($(this).attr('name') == name){
                     console.log($(this).children('path'));
-                    paper.path($(this).children('path').text());
+                    paper.clear();
+                    paper.path($(this).children('path').text())
+                    .attr({fill:'#000'});
                     return false;
                 }
             });
@@ -17,7 +19,24 @@ function loadDino(name,x,y) {
         }
     });
 }
-
+$(document).ready(function(){
+    $.ajax({
+        type: 'GET',
+        url: 'xml/dino.xml',
+        dataType:'xml',
+        success:function(xml){
+            $(xml).find('dino').each(function(){
+                $('#dino-list').append(
+                                       '<li class="lookup" data-name="'+$(this).attr('name')+'">'+$(this).attr('name')+'</li>'
+                                       );
+            });
+        }
+    });
+    $('body').on('click','.lookup',function(){
+        console.log($(this).data('name'));
+        loadDino($(this).data('name'));
+    });
+});
 function drawDino(name) {
     var dino = $(xml).find('dino');
     console.log(dino);
