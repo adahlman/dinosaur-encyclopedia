@@ -1,0 +1,1 @@
+Click dinosaur names to render graphic and get summary from Wikipedia. 
